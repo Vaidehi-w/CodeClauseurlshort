@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>URL Shortener</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input[type="text"] {
+            width: 300px;
+            padding: 5px;
+            font-size: 14px;
+        }
+
+        button {
+            padding: 8px 20px;
+            font-size: 14px;
+        }
+
+        .shortened-url {
+            margin-top: 20px;
+        }
+
+        .share-buttons {
+            margin-top: 20px;
+        }
+
+        .share-buttons a {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>URL Shortener</h1>
+    <form id="urlForm">
+        <label for="urlInput">Enter URL:</label>
+        <br>
+        <input type="text" id="urlInput" placeholder="https://example.com" required>
+        <button type="submit">Shorten</button>
+    </form>
+    <div class="shortened-url" id="shortenedUrlContainer" style="display: none;">
+        <label for="shortenedUrl">Shortened URL:</label>
+        <br>
+        <input type="text" id="shortenedUrl" readonly>
+        <button id="copyButton">Copy</button>
+    </div>
+    <div class="share-buttons" id="shareButtonsContainer" style="display: none;">
+        <p>Share on:</p>
+        <a id="whatsappButton" href="#" target="_blank">WhatsApp</a>
+        <a id="linkedinButton" href="#" target="_blank">LinkedIn</a>
+        <a id="facebookButton" href="#" target="_blank">Facebook</a>
+    </div>
+
+    <script>
+        document.getElementById("urlForm").addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            var urlInput = document.getElementById("urlInput");
+            var url = urlInput.value.trim();
+
+            if (url.length === 0) {
+                alert("Please enter a URL.");
+                return;
+            }
+
+            shortenURL(url);
+        });
+
+        document.getElementById("copyButton").addEventListener("click", function () {
+            var shortenedUrlInput = document.getElementById("shortenedUrl");
+            shortenedUrlInput.select();
+            document.execCommand("copy");
+            alert("Shortened URL copied to clipboard.");
+        });
+
+        function shortenURL(url) {
+            // You'll need to implement your URL shortening logic here.
+            // This can be done by making an API call to a URL shortening service or by using your custom implementation.
+            // For the sake of this example, let's assume the shortened URL is obtained synchronously.
+            var shortenedUrl = getShortenedURL(url);
+
+            displayShortenedURL(shortenedUrl);
+        }
+
+        function displayShortenedURL(shortenedUrl) {
+            var shortenedUrlInput = document.getElementById("shortenedUrl");
+            var shortenedUrlContainer = document.getElementById("shortenedUrlContainer");
+            var shareButtonsContainer = document.getElementById("shareButtonsContainer");
+            var whatsappButton = document.getElementById("whatsappButton");
+            var linkedinButton = document.getElementById("linkedinButton");
+            var facebookButton = document.getElementById("facebookButton");
+
+            shortenedUrlInput.value = shortenedUrl;
+            shortenedUrlContainer.style.display = "block";
+            shareButtonsContainer.style.display = "block";
+
+            whatsappButton.href = "https://api.whatsapp.com/send?text=" + encodeURIComponent(shortenedUrl);
+            linkedinButton.href = "https://www.linkedin.com/sharing/share-offsite/?url=" + encodeURIComponent(shortenedUrl);
+            facebookButton.href = "https://www.facebook.com/sharer/sharer.php?u=" + encodeURIComponent(shortenedUrl);
+        }
+
+        function getShortenedURL(url) {
+            // This is a placeholder function that returns a hardcoded shortened URL.
+            // Replace it with your actual implementation.
+            return "https://shorturl.com/abc123";
+        }
+    </script>
+</body>
+</html>
